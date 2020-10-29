@@ -2,6 +2,7 @@
 #define GRAPH_H
 
 #include <list>
+#include <stdexcept>
 #include <vector>
 #include <map>
 #include <queue>
@@ -76,7 +77,7 @@ Edge<E> * Graph<N,E>::addEdge(const E& annotation, const Node<N> * n1, const Nod
 	auto it_n1 = std::find(nodes.begin(), nodes.end(), n1);
 	auto it_n2 = std::find(nodes.begin(), nodes.end(), n2);
 	if (it_n1 == nodes.end() || it_n2 == nodes.end())
-		throw("node is not in the graph");
+		throw std::invalid_argument("Graph::addEdge: node is not in the graph");
 	Edge<E> *e = new Edge<E>(annotation);
 	edges.push_back(e);
 	incident_nodes[e] = std::make_pair(*it_n1,*it_n2);
@@ -89,7 +90,7 @@ template <class N, class E>
 void Graph<N,E>::deleteNode(const Node<N> * node) {
 	auto it_node = std::find(nodes.begin(), nodes.end(), node);
 	if (it_node == nodes.end())
-		throw("not in the graph");
+		throw std::invalid_argument("Graph::deleteNode: node is not in the graph");
 	nodes.erase(it_node);
 	std::list<Edge<E>*> list_edges = incident_edges[node];
 	for (auto it = list_edges.begin(); it !=  list_edges.end(); it++)
@@ -102,7 +103,7 @@ template <class N, class E>
 void Graph<N,E>::deleteEdge(const Edge<E> * edge) {
 	auto it_edge = std::find(edges.begin(), edges.end(), edge);
 	if (it_edge == nodes.end())
-		throw("not in the graph");
+		throw std::invalid_argument("Graph::deleteEdge: edge is not in the graph");
 	edges.erase(it_edge);
 	incident_nodes.erase(edge);
 	delete edge;
