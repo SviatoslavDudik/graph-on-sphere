@@ -1,5 +1,4 @@
-#include "source/graph.h"
-#include "source/spheric.h"
+#include "source/earth_map.h"
 #include <iostream>
 
 int main() {
