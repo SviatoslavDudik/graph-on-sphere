@@ -4,4 +4,4 @@ include_directories(. source)
 set(CMAKE_BUILD_TYPE Debug)
 
 ADD_EXECUTABLE(TP6 main.cpp source/earth_map.cpp source/spheric.cpp
-	source/scenario.cpp source/test_graph.cpp)
+	source/scenario.cpp source/test_graph.cpp source/test_spheric.cpp)

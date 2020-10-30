@@ -29,6 +29,13 @@ void Spheric<3>::setLongitude(double longitude) {
 	setAngle(1, longitude);
 }
 
+const Spheric<3>& Spheric<3>::operator=(const Spheric_Base<3> &p) {
+	setRadius(p.getRadius());
+	for (int i = 0; i < 2; i++)
+		setAngle(i, p.getAngle(i));
+	return *this;
+}
+
 Cartesian convertCartesian(const Spheric<3> &p) {
 	Cartesian cart;
 	cart.x = p.getRadius() * sin(p.getAngle(0)) * cos(p.getAngle(1));

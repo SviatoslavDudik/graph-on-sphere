@@ -3,10 +3,14 @@
 #include <assert.h>
 #include <iostream>
 
-void allTests() {
+void testGraphAddDelete();
+void testGraphUtils();
+
+void testGraph() {
 	testNode();
 	testEdge();
-	testGraph();
+	testGraphAddDelete();
+	testGraphUtils();
 }
 
 void testNode() {
@@ -130,10 +134,5 @@ void testGraphUtils() {
 		assert(test2.a[i] == 6);
 	for (int i = 0; i<7; i++)
 		assert(test2.b[i] >= 2);
-}
-
-void testGraph() {
-	testGraphAddDelete();
-	testGraphUtils();
 }
 

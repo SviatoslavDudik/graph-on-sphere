@@ -1,4 +1,5 @@
 #include "source/test_graph.h"
+#include "source/test_spheric.h"
 
 int main() {
 	/* Spheric<3> a = coordsEarth(51.507222, -0.1275); //london */
@@ -6,7 +7,8 @@ int main() {
 	/* Spheric<3> a = coordsEarth(38.725267, -9.150019); //lisbon */
 	/* Spheric<3> b = coordsEarth(-18.933333, 47.516667); //antananarivo */
 	/* std::cout << distance(a, b) << std::endl; */
-	allTests();
+	testGraph();
+	testSpheric();
 	return 0;
 }
 

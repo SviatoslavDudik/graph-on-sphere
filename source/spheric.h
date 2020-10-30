@@ -3,7 +3,6 @@
 
 #include <algorithm>
 #include <cmath>
-#include <exception>
 #include <stdexcept>
 
 template <int N>
@@ -12,7 +11,7 @@ class Spheric_Base {
 	double _angles[N-1];
 public:
 	Spheric_Base();
-	Spheric_Base(int r, double angles[N-1]);
+	Spheric_Base(int r, const double angles[N-1]);
 	inline double getRadius() const { return _r; }
 	inline double getAngle(int i) const { return _angles[i]; }
 	void setRadius(int r) { _r = r; }
@@ -34,7 +33,21 @@ template <int N>
 class Spheric : public Spheric_Base<N> {
 public:
 	Spheric() : Spheric_Base<N>() {}
-	Spheric(int r, double angles[N-1]) : Spheric_Base<N>(r, angles) {}
+	Spheric(int r, const double angles[N-1]) : Spheric_Base<N>(r, angles) {}
+	const Spheric<N>& operator=(const Spheric_Base<N> &p);
+};
+
+template <>
+class Spheric<3> : public Spheric_Base<3> {
+public:
+	Spheric() : Spheric_Base<3>() {}
+	Spheric(int r, const double angles[2]) : Spheric_Base<3>(r, angles) {}
+	Spheric(int r, double latitude, double longitude);
+	inline double getLatitude() const { return M_PI/2 - getAngle(0); }
+	inline double getLongitude() const { return getAngle(1); }
+	void setLatitude(double latitude);
+	void setLongitude(double longitude);
+	const Spheric<3>& operator=(const Spheric_Base<3> &p);
 };
 
 template <int N>
@@ -44,7 +57,10 @@ Spheric_Base<N>::Spheric_Base() : _r(0) {
 }
 
 template <int N>
-Spheric_Base<N>::Spheric_Base(int r, double angles[N-1]) : _r(r) {
+Spheric_Base<N>::Spheric_Base(int r, const double angles[N-1]) : _r(r) {
+	for (int i = 0; i < N-1; i++)
+		if (angles[i] < 0 || angles[i] >= M_PI)
+			throw std::invalid_argument("Spheric::Spheric: angle out of bounds");
 	std::copy(angles, angles + N-1, _angles);
 }
 
@@ -83,18 +99,6 @@ void Spheric_Base<N>::rotate(int i, double angle) {
 		invertAllExcept(i);
 }
 
-template <>
-class Spheric<3> : public Spheric_Base<3> {
-public:
-	Spheric() : Spheric_Base<3>() {}
-	Spheric(int r, double angles[2]) : Spheric_Base<3>(r, angles) {}
-	Spheric(int r, double latitude, double longitude);
-	inline double getLatitude() const { return M_PI/2 - getAngle(0); }
-	inline double getLongitude() const { return getAngle(1); }
-	void setLatitude(double latitude);
-	void setLongitude(double longitude);
-};
-
 template <int N>
 void Spheric_Base<N>::rotate(double angles[N-1]) {
 	for (int i = 0; i < N-1; i++) {
@@ -105,6 +109,14 @@ void Spheric_Base<N>::rotate(double angles[N-1]) {
 template <int N>
 double Spheric_Base<N>::norm() const {
 	return std::abs(_r);
+}
+
+template <int N>
+const Spheric<N>& Spheric<N>::operator=(const Spheric_Base<N> &p) {
+	this->setRadius(p.getRadius());
+	for (int i = 0; i < N-1; i++)
+		this->setAngle(i, p.getAngle(i));
+	return *this;
 }
 
 template <int N>
@@ -133,14 +145,18 @@ Spheric_Base<M> operator*(double d, const Spheric_Base<M> &p) {
 
 template <int N>
 void Spheric_Base<N>::invertAllExcept(int i) {
+	bool invert = N % 2 == 1;
 	for (int j = 0; j < N-1; j++) {
 		if (j == i)
 			continue;
 		_angles[j] = M_PI - _angles[j];
+		if (_angles[j] == M_PI) {
+			_angles[j] = 0;
+			invert = !invert;
+		}
 	}
-	if (N % 2 == 1)
+	if (invert)
 		_r *= -1;
-
 }
 
 class Cartesian {
