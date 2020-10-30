@@ -5,7 +5,12 @@
 Place::Place(std::string name, Spheric<3> location) :
 	_name(name), _location(location) {}
 
-Node<Place>* EarthMap::getPlace(const std::string &name) {
+bool Place::operator==(const Place& p) {
+	return _name == p._name;
+
+}
+
+const Node<Place>* EarthMap::getPlace(const std::string &name) {
 	try {
 		return places.at(name);
 	}
@@ -19,7 +24,7 @@ void EarthMap::addPlace(const std::string &name, double latitude, double longitu
 	if (it == nullptr) {
 		Spheric<3> location = coordsEarth(latitude, longitude);
 		Place p = Place(name, location);
-		Node<Place> *n = addNode(p);
+		const Node<Place> *n = addNode(p);
 		places[name] = n;
 	}
 }
@@ -49,8 +54,8 @@ void EarthMap::removeConnection(std::string name1, std::string name2, connection
 }
 struct _distance {
 	std::map<const Node<Place>*,long> distances;
-	Node<Place> *goal;
-	Node<Place>* operator()(const Node<Place> *from, const Node<Place> *to, const Edge<connectionType> *edge) {
+	const Node<Place> *goal;
+	const Node<Place>* operator()(const Node<Place> *from, const Node<Place> *to, const Edge<connectionType> *edge) {
 		edge->getAnnotation();
 		long val = LONG_MAX;
 		try {
@@ -78,12 +83,16 @@ struct _distance {
 
 long EarthMap::distance(const std::string &name1, const std::string &name2) {
 	struct _distance d;
-	Node<Place> *n1 = getPlace(name1);
-	Node<Place> *n2 = getPlace(name2);
+	const Node<Place> *n1 = getPlace(name1);
+	const Node<Place> *n2 = getPlace(name2);
 	d.distances[n1] = 0;
-	d.distances[n2] = LONG_MAX;
 	d.goal = n2;
 	breadthFirst(n1, d);
-	return d.distances[n2];
+	try {
+		return d.distances.at(n2);
+	}
+	catch (std::out_of_range e) {
+		return -1; // error
+	}
 }
 

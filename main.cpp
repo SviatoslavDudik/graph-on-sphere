@@ -1,12 +1,12 @@
-#include "source/earth_map.h"
-#include <iostream>
+#include "source/test_graph.h"
 
 int main() {
 	/* Spheric<3> a = coordsEarth(51.507222, -0.1275); //london */
 	/* Spheric<3> b = coordsEarth(51.45, -2.583333); //bristol */
-	Spheric<3> a = coordsEarth(38.725267, -9.150019); //lisbon
-	Spheric<3> b = coordsEarth(-18.933333, 47.516667); //antananarivo
-	std::cout << distance(a, b) << std::endl;
+	/* Spheric<3> a = coordsEarth(38.725267, -9.150019); //lisbon */
+	/* Spheric<3> b = coordsEarth(-18.933333, 47.516667); //antananarivo */
+	/* std::cout << distance(a, b) << std::endl; */
+	allTests();
 	return 0;
 }
 

@@ -14,11 +14,11 @@ public:
 	Place(std::string name, Spheric<3> location);
 	inline const std::string& getName() const { return _name; }
 	inline const Spheric<3>& getLocation() const { return _location; }
+	bool operator==(const Place& p);
 };
 
 class EarthMap : private Graph<Place, connectionType> {
-	std::map<const std::string, Node<Place>*> places;
-
+	std::map<const std::string, const Node<Place>*> places;
 public:
 	void addPlace(const std::string &name, double latitude, double longitude);
 	void deletePlace(const std::string &name);
@@ -26,7 +26,7 @@ public:
 	void removeConnection(std::string name1, std::string name2, connectionType ct);
 	long distance(const std::string &name1, const std::string &name2);
 private:
-	Node<Place>* getPlace(const std::string &name);
+	const Node<Place>* getPlace(const std::string &name);
 };
 
 
