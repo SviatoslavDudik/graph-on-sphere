@@ -10,11 +10,15 @@ Spheric<3>::Spheric(int r, double latitude, double longitude) : Spheric_Base<3>(
 void Spheric<3>::setLatitude(double latitude) {
 	if (latitude > M_PI/2 || latitude < -M_PI/2)
 		throw std::invalid_argument("Spheric::setLatitude: latitude is out of bounds");
+	if (latitude == -M_PI/2) {
+		latitude = 0;
+		setRadius(-getRadius());
+	}
 	setAngle(0, M_PI/2 - latitude);
 }
 
 void Spheric<3>::setLongitude(double longitude) {
-	if (longitude >= 2*M_PI || longitude <= -M_PI)
+	if (longitude >= 2*M_PI || longitude < -M_PI)
 		throw std::invalid_argument("Spheric::setLongitude: longitude is out of bounds");
 	if (longitude < 0) {
 		longitude += M_PI;

@@ -1,7 +1,6 @@
 #include "test_graph.h"
 #include "graph.h"
 #include <assert.h>
-#include <iostream>
 
 void testGraphAddDelete();
 void testGraphUtils();
