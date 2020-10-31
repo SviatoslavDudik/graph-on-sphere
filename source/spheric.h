@@ -147,8 +147,9 @@ template <int N>
 void Spheric_Base<N>::invertAllExcept(int i) {
 	bool invert = N % 2 == 1;
 	for (int j = 0; j < N-1; j++) {
-		if (j == i)
+		if (j == i) // skip _angles[i]
 			continue;
+		// invert angles relative to pi/2
 		_angles[j] = M_PI - _angles[j];
 		if (_angles[j] == M_PI) {
 			_angles[j] = 0;

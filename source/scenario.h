@@ -7,6 +7,7 @@ class Scenario {
 	EarthMap map;
 public:
 	Scenario();
+	EarthMap& getMap();
 private:
 	void initScenario();
 };

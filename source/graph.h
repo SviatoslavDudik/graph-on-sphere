@@ -15,7 +15,7 @@ class Node {
 public:
 	Node(const T &data);
 	void setData(const T &data) { _data = data; }
-	inline const T &getData() const { return _data; }
+	inline const T& getData() const { return _data; }
 };
 
 template <class T>
@@ -24,7 +24,7 @@ class Edge {
 public:
 	Edge(const T &annotation);
 	void setAnnotation(const T &annotation) { _annotation = annotation; }
-	inline const T &getAnnotation() const { return _annotation; }
+	inline const T& getAnnotation() const { return _annotation; }
 };
 
 template <class N, class E>
@@ -173,7 +173,8 @@ Function Graph<N,E>::breadthFirst(const Node<N> * start, Function fn) const {
 		std::list<Edge<E>*> edges = incident_edges.at(curr);
 		for (Edge<E> *edge: edges) {
 			const Node<N> *node = incident_nodes.at(edge).second;
-			if (fn(curr, node, edge) == curr)
+			// call to fn to save values
+			if (fn(curr, node, edge) == curr)  // if return value = curr then stop
 				return fn;
 			if (discovered.find(node) == discovered.end()) {
 				discovered.insert(node);
@@ -251,6 +252,10 @@ void Graph<N,E>::deleteEdge(typename std::vector<Edge<E>*>::const_iterator it_ed
 		throw std::invalid_argument("Graph::deleteEdge: edge is not in the graph");
 	Edge<E> *edge = *it_edge;
 	edges.erase(it_edge);
+	// remove links
+	auto pair_nodes = incident_nodes[edge];
+	std::list<Edge<E>*> &list_edges = incident_edges[pair_nodes.first];
+	list_edges.remove(edge);
 	incident_nodes.erase(edge);
 	delete edge;
 }

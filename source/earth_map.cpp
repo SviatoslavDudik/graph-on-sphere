@@ -49,6 +49,7 @@ void EarthMap::removeConnection(std::string name1, std::string name2, connection
 	auto it2 = getPlace(name2);
 	if (it1 != nullptr || it2 != nullptr) {
 		deleteEdge(ct, it1, it2);
+		deleteEdge(ct, it2, it1);
 	}
 
 }

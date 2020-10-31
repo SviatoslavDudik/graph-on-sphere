@@ -4,6 +4,10 @@ Scenario::Scenario() {
 	initScenario();
 }
 
+EarthMap& Scenario::getMap() {
+	return map;
+}
+
 void Scenario::initScenario() {
 	map.addPlace("bordeaux", 44.84, -0.58);
 	map.addPlace("brest", 48.39, -4.49);
