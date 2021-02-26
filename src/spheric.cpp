@@ -50,7 +50,7 @@ Cartesian convertCartesian(const Spheric<3> &p) {
 	return cart;
 }
 
-double distance(const Spheric<3> &p1, const Spheric<3> &p2) {
+double distanceGrandCercle(const Spheric<3> &p1, const Spheric<3> &p2) {
 	double res;
 	const double R = std::abs(p1.getRadius());
 	if (R != std::abs(p2.getRadius())) {

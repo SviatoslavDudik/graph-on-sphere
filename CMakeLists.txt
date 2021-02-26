@@ -1,7 +1,13 @@
 CMAKE_MINIMUM_REQUIRED (VERSION 2.6)
-project(tp4)
-include_directories(. source)
-set(CMAKE_BUILD_TYPE Debug)
+project (Graph-on-Sphere)
+include_directories (lib)
 
-ADD_EXECUTABLE(TP6 main.cpp source/earth_map.cpp source/spheric.cpp
-	source/scenario.cpp source/test_graph.cpp source/test_spheric.cpp)
+ADD_EXECUTABLE (
+	simul
+	src/main.cpp
+	src/earth_map.cpp
+	src/spheric.cpp
+	src/scenario.cpp
+	src/test_graph.cpp
+	src/test_spheric.cpp
+)

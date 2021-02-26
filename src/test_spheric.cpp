@@ -91,16 +91,16 @@ void testSpheric3D() {
 	p2.setRadius(-1);
 	p2.setAngle(0, M_PI/4);
 	p2.setAngle(1, M_PI/4);
-	assert(equals(distance(p1,p2), M_PI, 0.00001));
+	assert(equals(distanceGrandCercle(p1,p2), M_PI, 0.00001));
 
 	p2.setAngle(0, 3*M_PI/4);
-	assert(equals(distance(p1,p2), M_PI/2, 0.00001));
+	assert(equals(distanceGrandCercle(p1,p2), M_PI/2, 0.00001));
 
 	p1 = coordsEarth(48.856613, 2.352222); // paris
 	p2 = coordsEarth(51.507222, -0.1275); // london
-	assert(equals(distance(p1,p2), 343680, 0.001));
+	assert(equals(distanceGrandCercle(p1,p2), 343680, 0.001));
 	p2 = coordsEarth(51.45, -2.583333); //bristol
-	assert(equals(distance(p1,p2), 454440, 0.001));
+	assert(equals(distanceGrandCercle(p1,p2), 454440, 0.001));
 	p2 = coordsEarth(-18.933333, 47.516667); //antananarivo
-	assert(equals(distance(p1,p2), 8757070, 0.001));
+	assert(equals(distanceGrandCercle(p1,p2), 8757070, 0.001));
 }

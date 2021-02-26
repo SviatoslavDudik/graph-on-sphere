@@ -60,7 +60,7 @@ struct _distance {
 		edge->getAnnotation();
 		long val = LONG_MAX;
 		try {
-			long val = distances.at(from) + distance(from->getData().getLocation(), to->getData().getLocation());
+			long val = distances.at(from) + distanceGrandCercle(from->getData().getLocation(), to->getData().getLocation());
 		}
 		catch (std::out_of_range e) {
 			// part of the route contains an edge with different connectionType
